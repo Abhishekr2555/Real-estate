@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors=require('cors')
-
+const path=require('path')
 const authRoute = require('./Routes/auth.route');
 const postRoute = require('./Routes/post.route');
 const messageRoute = require('./Routes/message.route');
@@ -27,6 +27,12 @@ app.use('/api/test', testRoute);
 app.listen(8800, () => {
     console.log('server started on port 8800');
 });
+
+app.use(express.static(path.join(__dirname,'./Client/build')))
+
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname,'./Client/build/index.html'))
+})
 
 app.use(bodyParser.json({ type: 'application/*+json' }))
 
